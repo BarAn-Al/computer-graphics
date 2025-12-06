@@ -1,0 +1,10 @@
+{
+    "java.project.sourcePaths": [
+        "src"
+    ],
+    "java.project.outputPath": "bin",
+    "terminal.integrated.env.linux": {
+        "GTK_PATH": null,
+        "GIO_MODULE_DIR": null
+    }
+}

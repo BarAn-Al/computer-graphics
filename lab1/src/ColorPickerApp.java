@@ -301,7 +301,7 @@ public class ColorPickerApp extends JFrame {
         
         setCMYK(RgbToCmyk(r, g, b));
         setHLS(RgbToHls(r, g, b));
-        setRGB(new int[]{r, g, b});
+        setRGB(new float[]{r, g, b});
     }
     
     private void updateFromHLS(boolean from_slider) {
@@ -316,8 +316,8 @@ public class ColorPickerApp extends JFrame {
             l = (int)lightnessSpinner.getValue();
         }
         
-        setHLS(new int[]{h, l, s});
-        int[] rgb = HlsToRgb(h, l, s);
+        setHLS(new float[]{h, l, s});
+        float[] rgb = HlsToRgb(h, l, s);
         setCMYK(RgbToCmyk(rgb[0], rgb[1], rgb[2]));
         setRGB(rgb);
     }
@@ -337,57 +337,57 @@ public class ColorPickerApp extends JFrame {
             k = (int)blackSpinner.getValue();
         }
 
-        setCMYK(new int[]{c, m, y, k});
-        int[] rgb = CmykToRgb(c, m, y, k);
+        setCMYK(new float[]{c, m, y, k});
+        float[] rgb = CmykToRgb(c, m, y, k);
         setHLS(RgbToHls(rgb[0], rgb[1], rgb[2]));
         setRGB(rgb);
 
     }
     
-    private void setHLS(int[] hls) {
+    private void setHLS(float[] hls) {
         updating = true;
 
-        hueSlider.setValue(hls[0]);
-        hueSpinner.setValue(hls[0]);
-        lightnessSlider.setValue(hls[1]);
-        lightnessSpinner.setValue(hls[1]);
-        saturationSlider.setValue(hls[2]);
-        saturationSpinner.setValue(hls[2]);
+        hueSlider.setValue(Math.round(hls[0]));
+        hueSpinner.setValue(Math.round(hls[0]));
+        lightnessSlider.setValue(Math.round(hls[1]));
+        lightnessSpinner.setValue(Math.round(hls[1]));
+        saturationSlider.setValue(Math.round(hls[2]));
+        saturationSpinner.setValue(Math.round(hls[2]));
 
-        hlsField.setText(String.format("HLS(%d, %d, %d)", hls[0], hls[1], hls[2]));
+        hlsField.setText(String.format("HLS(%d, %d, %d)", Math.round(hls[0]), Math.round(hls[1]), Math.round(hls[2])));
     }
 
-    private void setRGB(int[] rgb) {
+    private void setRGB(float[] rgb) {
         updating = true;
 
-        redSlider.setValue(rgb[0]);
-        redSpinner.setValue(rgb[0]);
-        greenSlider.setValue(rgb[1]);
-        greenSpinner.setValue(rgb[1]);
-        blueSlider.setValue(rgb[2]);
-        blueSpinner.setValue(rgb[2]);
+        redSlider.setValue(Math.round(rgb[0]));
+        redSpinner.setValue(Math.round(rgb[0]));
+        greenSlider.setValue(Math.round(rgb[1]));
+        greenSpinner.setValue(Math.round(rgb[1]));
+        blueSlider.setValue(Math.round(rgb[2]));
+        blueSpinner.setValue(Math.round(rgb[2]));
 
-        rgbField.setText(String.format("RGB(%d, %d, %d)", rgb[0], rgb[1], rgb[2]));
-        hexLabel.setText(String.format("#%02X%02X%02X", rgb[0], rgb[1], rgb[2]));
-        currentColor = new Color(rgb[0], rgb[1], rgb[2]);
+        rgbField.setText(String.format("RGB(%d, %d, %d)", Math.round(rgb[0]), Math.round(rgb[1]), Math.round(rgb[2])));
+        hexLabel.setText(String.format("#%02X%02X%02X", Math.round(rgb[0]), Math.round(rgb[1]), Math.round(rgb[2])));
+        currentColor = new Color(Math.round(rgb[0]), Math.round(rgb[1]), Math.round(rgb[2]));
         colorDisplayPanel.repaint();
         updating = false;
     }
 
-    private void setCMYK(int[] cmyk) {
+    private void setCMYK(float[] cmyk) {
         updating = true;
 
-        cyanSlider.setValue(cmyk[0]);
-        cyanSpinner.setValue(cmyk[0]);
-        magentaSlider.setValue(cmyk[1]);
-        magentaSpinner.setValue(cmyk[1]);
-        yellowSlider.setValue(cmyk[2]);
-        yellowSpinner.setValue(cmyk[2]);
-        blackSlider.setValue(cmyk[3]);
-        blackSpinner.setValue(cmyk[3]);
+        cyanSlider.setValue(Math.round(cmyk[0]));
+        cyanSpinner.setValue(Math.round(cmyk[0]));
+        magentaSlider.setValue(Math.round(cmyk[1]));
+        magentaSpinner.setValue(Math.round(cmyk[1]));
+        yellowSlider.setValue(Math.round(cmyk[2]));
+        yellowSpinner.setValue(Math.round(cmyk[2]));
+        blackSlider.setValue(Math.round(cmyk[3]));
+        blackSpinner.setValue(Math.round(cmyk[3]));
 
         cmykField.setText(String.format("CMYK(%d, %d, %d, %d)", 
-            cmyk[0], cmyk[1], cmyk[2], cmyk[3]));
+            Math.round(cmyk[0]), Math.round(cmyk[1]), Math.round(cmyk[2]), Math.round(cmyk[3])));
     }
     
     private void updateAllDisplays(Color color) {
@@ -402,34 +402,34 @@ public class ColorPickerApp extends JFrame {
         blueSpinner.setValue(color.getBlue());
         
         // Обновляем HLS
-        int[] hls = RgbToHls(color.getRed(), color.getGreen(), color.getBlue());
-        hueSlider.setValue(hls[0]);
-        hueSpinner.setValue(hls[0]);
-        lightnessSlider.setValue(hls[1]);
-        lightnessSpinner.setValue(hls[1]);
-        saturationSlider.setValue(hls[2]);
-        saturationSpinner.setValue(hls[2]);
+        float[] hls = RgbToHls(color.getRed(), color.getGreen(), color.getBlue());
+        hueSlider.setValue(Math.round(hls[0]));
+        hueSpinner.setValue(Math.round(hls[0]));
+        lightnessSlider.setValue(Math.round(hls[1]));
+        lightnessSpinner.setValue(Math.round(hls[1]));
+        saturationSlider.setValue(Math.round(hls[2]));
+        saturationSpinner.setValue(Math.round(hls[2]));
         
         // Обновляем CMYK
-        int[] cmyk = RgbToCmyk(color.getRed(), color.getGreen(), color.getBlue());
-        cyanSlider.setValue(cmyk[0]);
-        cyanSpinner.setValue(cmyk[0]);
-        magentaSlider.setValue(cmyk[1]);
-        magentaSpinner.setValue(cmyk[1]);
-        yellowSlider.setValue(cmyk[2]);
-        yellowSpinner.setValue(cmyk[2]);
-        blackSlider.setValue(cmyk[3]);
-        blackSpinner.setValue(cmyk[3]);
+        float[] cmyk = RgbToCmyk(color.getRed(), color.getGreen(), color.getBlue());
+        cyanSlider.setValue(Math.round(cmyk[0]));
+        cyanSpinner.setValue(Math.round(cmyk[0]));
+        magentaSlider.setValue(Math.round(cmyk[1]));
+        magentaSpinner.setValue(Math.round(cmyk[1]));
+        yellowSlider.setValue(Math.round(cmyk[2]));
+        yellowSpinner.setValue(Math.round(cmyk[2]));
+        blackSlider.setValue(Math.round(cmyk[3]));
+        blackSpinner.setValue(Math.round(cmyk[3]));
         
         // Обновляем текстовые поля
         rgbField.setText(String.format("RGB(%d, %d, %d)", 
             color.getRed(), color.getGreen(), color.getBlue()));
         
         hlsField.setText(String.format("HLS(%d, %d, %d)",
-            hls[0], hls[1], hls[2]));
+            Math.round(hls[0]), Math.round(hls[1]), Math.round(hls[2])));
         
         cmykField.setText(String.format("CMYK(%d, %d, %d, %d)", 
-            cmyk[0], cmyk[1], cmyk[2], cmyk[3]));
+            Math.round(cmyk[0]), Math.round(cmyk[1]), Math.round(cmyk[2]), Math.round(cmyk[3])));
         
         // Обновляем HEX
         hexLabel.setText(String.format("#%02X%02X%02X", 
@@ -441,7 +441,7 @@ public class ColorPickerApp extends JFrame {
         updating = false;
     }
 
-    private int[] HlsToRgb(int h, int l1, int s1) {
+    private float[] HlsToRgb(int h, int l1, int s1) {
         float l = l1 / 100.0f;
         float s = s1 / 100.0f;
         float C = (1 - Math.abs(2 * l - 1)) * s;
@@ -469,21 +469,21 @@ public class ColorPickerApp extends JFrame {
             b0 = X;
         }
 
-        int r = Math.round((r0 + m) * 255);
-        int g = Math.round((g0 + m) * 255);
-        int b = Math.round((b0 + m) * 255);
+        float r = (r0 + m) * 255;
+        float g = (g0 + m) * 255;
+        float b = (b0 + m) * 255;
 
-        return new int[]{r, g, b};
+        return new float[]{r, g, b};
     }
 
-    private int[] RgbToHls(int r, int g, int b) {
+    private float[] RgbToHls(float r, float g, float b) {
         float h, s, l;
         float r0 = r / 255.0f;
         float g0 = g / 255.0f;
         float b0 = b / 255.0f;
-        int max = Math.max(r, Math.max(g, b));
-        int min = Math.min(r, Math.min(g, b));
-        int d = max - min;
+        float max = Math.max(r, Math.max(g, b));
+        float min = Math.min(r, Math.min(g, b));
+        float d = max - min;
         if (d == 0) {
             h = 0.0f;
             s = 0.0f;
@@ -503,20 +503,20 @@ public class ColorPickerApp extends JFrame {
             l *= 100.0f;
         }
         
-        return new int[]{Math.round(h), Math.round(l), Math.round(s)};
+        return new float[]{Math.round(h), Math.round(l), Math.round(s)};
     }
 
-    private int[] CmykToRgb(int c, int m, int y, int k) {
-        int r = Math.round(255 * (1 - c / 100.0f) * (1 - k / 100.0f));
-        int g = Math.round(255 * (1 - m / 100.0f) * (1 - k / 100.0f));
-        int b = Math.round(255 * (1 - y / 100.0f) * (1 - k / 100.0f));
+    private float[] CmykToRgb(int c, int m, int y, int k) {
+        float r = 255 * (1 - c / 100.0f) * (1 - k / 100.0f);
+        float g = 255 * (1 - m / 100.0f) * (1 - k / 100.0f);
+        float b = 255 * (1 - y / 100.0f) * (1 - k / 100.0f);
 
-        return new int[]{r, g, b};
+        return new float[]{r, g, b};
     }
 
-    private int[] RgbToCmyk(int r, int g, int b) {
+    private float[] RgbToCmyk(float r, float g, float b) {
         if (r == 0 && g == 0 && b == 0) {
-            return new int[]{0, 0, 0, 100};
+            return new float[]{0, 0, 0, 100};
         }
         
         float c = 1 - r / 255.0f;
@@ -524,11 +524,11 @@ public class ColorPickerApp extends JFrame {
         float y = 1 - b / 255.0f;
         
         float k = Math.min(c, Math.min(m, y));
-        int c1 = Math.round((c - k) / (1 - k) * 100);
-        int m1 = Math.round((m - k) / (1 - k) * 100);
-        int y1 = Math.round((y - k) / (1 - k) * 100);
+        float c1 = (c - k) / (1 - k) * 100;
+        float m1 = (m - k) / (1 - k) * 100;
+        float y1 = (y - k) / (1 - k) * 100;
         
-        return new int[]{c1, m1, y1, Math.round(k * 100)};
+        return new float[]{c1, m1, y1, k * 100};
     }
     
     public static void main(String[] args) {
