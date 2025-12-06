@@ -243,7 +243,7 @@ public class ImageProcessorApp extends JFrame {
     }
     
     private BufferedImage createHistogramImage(BufferedImage image) {
-        int width = 400;
+        int width = 255;
         int height = 300;
         BufferedImage histogram = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         Graphics2D g = histogram.createGraphics();

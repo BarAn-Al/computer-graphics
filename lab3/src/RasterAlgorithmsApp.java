@@ -16,7 +16,7 @@ class Pixel {
 
 class DrawingPanel extends JPanel {
     private List<Pixel> pixels = new ArrayList<>();
-    private int scale = 10;
+    private int scale = 15;
     private int originX, originY;
     private String currentAlgorithm = "Step-by-Step";
     private boolean showGrid = true;
@@ -62,8 +62,9 @@ class DrawingPanel extends JPanel {
         
         long endTime = System.nanoTime();
         long duration = endTime - startTime;
+        double secs = duration / 1000000000.0;
         
-        System.out.println(currentAlgorithm + " время выполнения: " + duration + " нс");
+        System.out.println(currentAlgorithm + " время выполнения: " + secs + " c");
         
         repaint();
     }
@@ -203,6 +204,15 @@ class DrawingPanel extends JPanel {
         originX = getWidth() / 2;
         originY = getHeight() / 2;
         
+        for (Pixel pixel : pixels) {
+            g2d.setColor(pixel.color);
+            int x = originX + pixel.x * scale;
+            int y = originY - pixel.y * scale; 
+            g2d.fillRect(x, y, scale, scale);
+            
+            g2d.setColor(Color.BLACK);
+        }
+        
         if (showGrid) {
             g2d.setColor(new Color(240, 240, 240));
             
@@ -262,16 +272,6 @@ class DrawingPanel extends JPanel {
             }
         }
         
-        for (Pixel pixel : pixels) {
-            g2d.setColor(pixel.color);
-            int x = originX + pixel.x * scale;
-            int y = originY - pixel.y * scale; 
-            g2d.fillRect(x - scale/2, y - scale/2, scale, scale);
-            
-            g2d.setColor(Color.BLACK);
-            g2d.drawRect(x - scale/2, y - scale/2, scale, scale);
-        }
-        
         g2d.setColor(Color.BLACK);
         g2d.setFont(new Font("Arial", Font.BOLD, 14));
         g2d.drawString("Алгоритм: " + currentAlgorithm, 10, 20);
@@ -321,7 +321,7 @@ public class RasterAlgorithmsApp extends JFrame {
         gbc.gridx = 0; gbc.gridy = 1;
         controlPanel.add(new JLabel("Масштаб (px/ед):"), gbc);
         
-        scaleSpinner = new JSpinner(new SpinnerNumberModel(10, 1, 50, 1));
+        scaleSpinner = new JSpinner(new SpinnerNumberModel(15, 1, 50, 1));
         scaleSpinner.addChangeListener(e -> {
             drawingPanel.setScale((Integer)scaleSpinner.getValue());
         });
